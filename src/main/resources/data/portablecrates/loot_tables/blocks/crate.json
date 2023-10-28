@@ -1,0 +1,55 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "rolls": 1.0,
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:alternatives",
+          "children": [
+            {
+              "type": "minecraft:item",
+              "name": "portablecrates:sealed_crate",
+              "conditions": [
+                {
+                  "condition": "minecraft:block_state_property",
+                  "block": "portablecrates:crate",
+                  "properties": {
+                    "empty": "false"
+                  }
+                }
+              ],
+              "functions": [
+                {
+                  "function": "minecraft:copy_name",
+                  "source": "block_entity"
+                },
+                {
+                  "type": "portablecrates:crate",
+                  "function": "minecraft:set_contents",
+                  "entries": [
+                    {
+                      "type": "minecraft:dynamic",
+                      "name": "minecraft:contents"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "minecraft:item",
+              "name": "portablecrates:crate",
+              "functions": [
+                {
+                  "function": "minecraft:copy_name",
+                  "source": "block_entity"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "id": "portablecrates",
+  "version": "${version}",
+  "name": "Portable Crates",
+  "description": "",
+  "authors": ["Kamorzy"],
+  "contact": {
+    "repo": "https://github.com/Kamorzy/Portable Crates"
+  },
+  "license": "All-Rights-Reserved",
+  "icon": "assets/portablecrates/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+    ],
+    "main": [
+      "kamorzy.portablecrates.PortableCrates"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=0.14.19",
+    "fabric": "*",
+    "minecraft": "1.20.x"
+  }
+}

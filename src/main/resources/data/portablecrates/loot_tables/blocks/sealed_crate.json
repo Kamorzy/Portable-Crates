@@ -1,0 +1,56 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "rolls": 1.0,
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:alternatives",
+          "children": [
+            {
+              "type": "minecraft:item",
+              "name": "portablecrates:sealed_crate",
+              "conditions": [
+                {
+                  "condition": "minecraft:match_tool",
+                  "predicate": {
+                    "enchantments": [
+                      {
+                        "enchantment": "minecraft:silk_touch",
+                        "levels": {
+                          "min": 1
+                        }
+                      }
+                    ]
+                  }
+                }
+              ],
+              "functions": [
+                {
+                  "function": "minecraft:copy_name",
+                  "source": "block_entity"
+                },
+                {
+                  "type": "portablecrates:sealed_crate",
+                  "function": "minecraft:set_contents",
+                  "entries": [
+                    {
+                      "type": "minecraft:dynamic",
+                      "name": "minecraft:contents"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "minecraft:dynamic",
+              "name": "minecraft:contents"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+

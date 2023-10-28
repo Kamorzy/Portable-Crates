@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "p": {
+      "tag": "minecraft:planks"
+    },
+    "i": {
+      "item": "minecraft:iron_ingot"
+    }
+  },
+  "pattern": [
+    "ipi",
+    "p p",
+    "ipi"
+  ],
+  "result": {
+    "item": "portablecrates:crate"
+  },
+  "show_notification": true
+}
