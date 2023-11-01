@@ -10,7 +10,7 @@
           "children": [
             {
               "type": "minecraft:item",
-              "name": "portablecrates:sealed_crate",
+              "name": "portablecrates:spruce_sealed_crate",
               "conditions": [
                 {
                   "condition": "minecraft:match_tool",
@@ -32,7 +32,7 @@
                   "source": "block_entity"
                 },
                 {
-                  "type": "portablecrates:sealed_crate",
+                  "type": "portablecrates:spruce_sealed_crate",
                   "function": "minecraft:set_contents",
                   "entries": [
                     {

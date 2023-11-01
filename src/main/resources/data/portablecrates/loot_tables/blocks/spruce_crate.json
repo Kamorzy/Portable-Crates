@@ -10,11 +10,11 @@
           "children": [
             {
               "type": "minecraft:item",
-              "name": "portablecrates:sealed_crate",
+              "name": "portablecrates:spruce_sealed_crate",
               "conditions": [
                 {
                   "condition": "minecraft:block_state_property",
-                  "block": "portablecrates:crate",
+                  "block": "portablecrates:spruce_crate",
                   "properties": {
                     "empty": "false"
                   }
@@ -26,7 +26,7 @@
                   "source": "block_entity"
                 },
                 {
-                  "type": "portablecrates:crate",
+                  "type": "portablecrates:spruce_crate",
                   "function": "minecraft:set_contents",
                   "entries": [
                     {
@@ -39,7 +39,7 @@
             },
             {
               "type": "minecraft:item",
-              "name": "portablecrates:crate",
+              "name": "portablecrates:spruce_crate",
               "functions": [
                 {
                   "function": "minecraft:copy_name",

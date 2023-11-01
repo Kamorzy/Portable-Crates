@@ -28,14 +28,16 @@ public class SealedCrateBlock extends BlockWithEntity {
     // Properties
     public static final Identifier CONTENTS = new Identifier("contents");
     public static final DirectionProperty FACING = HorizontalFacingBlock.FACING;
+    private final WoodType wood;
 
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
         builder.add(FACING);
     }
 
-    public SealedCrateBlock(Settings settings) {
+    public SealedCrateBlock(WoodType wood, Settings settings) {
         super(settings);
+        this.wood = wood;
         setDefaultState(getDefaultState().with(FACING, Direction.NORTH));
     }
 

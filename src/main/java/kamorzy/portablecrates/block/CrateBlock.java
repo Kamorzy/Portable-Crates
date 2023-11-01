@@ -32,14 +32,16 @@ public class CrateBlock extends BlockWithEntity {
     public static final Identifier CONTENTS = new Identifier("contents");
     public static final BooleanProperty EMPTY = BooleanProperty.of("empty");
     public static final DirectionProperty FACING = HorizontalFacingBlock.FACING;
+    private final WoodType wood;
 
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
         builder.add(EMPTY, FACING);
     }
 
-    public CrateBlock(Settings settings) {
+    public CrateBlock(WoodType wood, Settings settings) {
         super(settings);
+        this.wood = wood;
         setDefaultState(getDefaultState().with(FACING, Direction.NORTH).with(EMPTY, true));
     }
 

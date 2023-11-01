@@ -3,24 +3,25 @@
   "id": "portablecrates",
   "version": "${version}",
   "name": "Portable Crates",
-  "description": "",
+  "description": "Adds portable crates",
   "authors": ["Kamorzy"],
   "contact": {
-    "repo": "https://github.com/Kamorzy/Portable Crates"
+    "repo": "https://github.com/Kamorzy/Portable-Crates"
   },
-  "license": "All-Rights-Reserved",
+  "license": "LGPLv3",
   "icon": "assets/portablecrates/icon.png",
   "environment": "*",
   "entrypoints": {
     "client": [
+      "kamorzy.portablecrates.PortableCratesClient"
     ],
     "main": [
       "kamorzy.portablecrates.PortableCrates"
     ]
   },
   "depends": {
-    "fabricloader": ">=0.14.19",
+    "fabricloader": ">=0.14.23",
     "fabric": "*",
-    "minecraft": "1.20.x"
+    "minecraft": "1.20.2"
   }
 }

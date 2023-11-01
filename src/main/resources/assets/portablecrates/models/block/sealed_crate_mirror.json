@@ -1,7 +1,0 @@
-{
-  "parent": "portablecrates:block/template_crate",
-  "textures": {
-    "parallel": "portablecrates:block/sealed_crate_mirror",
-    "perpendicular": "portablecrates:block/sealed_crate"
-  }
-}

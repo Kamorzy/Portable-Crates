@@ -4,43 +4,82 @@ import kamorzy.portablecrates.PortableCrates;
 import kamorzy.portablecrates.blockentity.CrateBlockEntity;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.loot.context.*;
 import net.minecraft.entity.ItemEntity;
-import net.minecraft.block.entity.LootableContainerBlockEntity;
 import net.minecraft.entity.mob.PiglinBrain;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.loot.context.LootContext;
-import net.minecraft.loot.context.LootContextParameters;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.Identifier;
+import net.minecraft.state.StateManager;
+import net.minecraft.state.property.BooleanProperty;
+import net.minecraft.state.property.DirectionProperty;
+import net.minecraft.util.*;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.random.Random;
-import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
 public class CrateBlock extends BlockWithEntity {
 
+    // Properties
     public static final Identifier CONTENTS = new Identifier("contents");
+    public static final BooleanProperty EMPTY = BooleanProperty.of("empty");
+    public static final DirectionProperty FACING = HorizontalFacingBlock.FACING;
+
+    @Override
+    protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
+        builder.add(EMPTY, FACING);
+    }
 
     public CrateBlock(Settings settings) {
         super(settings);
+        setDefaultState(getDefaultState().with(FACING, Direction.NORTH).with(EMPTY, true));
     }
 
+    public BlockState getPlacementState(ItemPlacementContext ctx) {
+        return (BlockState)this.getDefaultState().with(FACING, ctx.getHorizontalPlayerFacing().getOpposite());
+    }
+
+    public BlockState rotate(BlockState state, BlockRotation rotation) {
+        return (BlockState)state.with(FACING, rotation.rotate((Direction)state.get(FACING)));
+    }
+
+    public BlockState mirror(BlockState state, BlockMirror mirror) {
+        return state.rotate(mirror.getRotation((Direction)state.get(FACING)));
+    }
+
+    public BlockRenderType getRenderType(BlockState state) {
+        return BlockRenderType.MODEL;
+    }
+
+    // Init
     @Override
     public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
         return new CrateBlockEntity(pos, state);
     }
 
-    public BlockRenderType getRenderType(BlockState state) {
-        return BlockRenderType.MODEL;
+    // Tick
+    public void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
+        BlockEntity blockEntity = world.getBlockEntity(pos);
+        if (blockEntity instanceof CrateBlockEntity) {
+            ((CrateBlockEntity)blockEntity).tick();
+        }
+    }
+
+    // Player Interactions
+    public void onPlaced(World world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack itemStack) {
+        if (itemStack.hasCustomName()) {
+            BlockEntity blockEntity = world.getBlockEntity(pos);
+            if (blockEntity instanceof CrateBlockEntity) {
+                ((CrateBlockEntity)blockEntity).setCustomName(itemStack.getName());
+            }
+        }
     }
 
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
@@ -52,58 +91,49 @@ public class CrateBlock extends BlockWithEntity {
                 player.openHandledScreen((CrateBlockEntity)blockEntity);
                 PiglinBrain.onGuardedBlockInteracted(player, true);
             }
-
             return ActionResult.CONSUME;
         }
     }
 
     public void onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
         BlockEntity blockEntity = world.getBlockEntity(pos);
-        if (blockEntity instanceof CrateBlockEntity CrateBlockEntity) {
-            // If creative mode, drop the item again with its inventory (think by default blocks drop nothing in creative)
-            if (!world.isClient && player.isCreative() && !CrateBlockEntity.isEmpty()) {
-                ItemStack itemStack = new ItemStack(PortableCrates.CRATE_BLOCK);
-                blockEntity.setStackNbt(itemStack);
-                if (CrateBlockEntity.hasCustomName()) {
-                    itemStack.setCustomName(CrateBlockEntity.getCustomName());
-                }
-                ItemEntity itemEntity = new ItemEntity(world, (double)pos.getX() + 0.5, (double)pos.getY() + 0.5, (double)pos.getZ() + 0.5, itemStack);
-                itemEntity.setToDefaultPickupDelay();
-                world.spawnEntity(itemEntity);
-            // No idea what this does, loot drops according to loot table regardless of this statement
-            // Found in ShulkerboxBlock class tho so keeping it.
+        if (blockEntity instanceof CrateBlockEntity crateBlockEntity) {
+            if ((!world.isClient) && !crateBlockEntity.isEmpty() && player.isCreative()) {
+                    ItemStack itemStack = new ItemStack(PortableCrates.CRATE_BLOCK);
+                    blockEntity.setStackNbt(itemStack);
+                    if (crateBlockEntity.hasCustomName()) {
+                        itemStack.setCustomName(crateBlockEntity.getCustomName());
+                    }
+                    ItemEntity itemEntity = new ItemEntity(world, (double) pos.getX() + 0.5, (double) pos.getY() + 0.5, (double) pos.getZ() + 0.5, itemStack);
+                    itemEntity.setToDefaultPickupDelay();
+                    world.spawnEntity(itemEntity);
             } else {
-                CrateBlockEntity.checkLootInteraction(player);
+                crateBlockEntity.checkLootInteraction(player);
             }
         }
         super.onBreak(world, pos, state, player);
     }
 
-    public List<ItemStack> getDroppedStacks(BlockState state, LootContext.Builder builder) {
-        BlockEntity blockEntity = (BlockEntity)builder.getNullable(LootContextParameters.BLOCK_ENTITY);
+    public List<ItemStack> getDroppedStacks(BlockState state, LootContextParameterSet.Builder builder) {
+        BlockEntity blockEntity = (BlockEntity)builder.getOptional(LootContextParameters.BLOCK_ENTITY);
         if (blockEntity instanceof CrateBlockEntity crateBlockEntity) {
-            builder = builder.putDrop(CONTENTS, (context, consumer) -> {
+            builder = builder.addDynamicDrop(CONTENTS, (lootConsumer) -> {
                 for(int i = 0; i < crateBlockEntity.size(); ++i) {
-                    consumer.accept(crateBlockEntity.getStack(i));
+                    lootConsumer.accept(crateBlockEntity.getStack(i));
                 }
-
             });
         }
         return super.getDroppedStacks(state, builder);
     }
 
-    public ItemStack getPickStack(BlockView world, BlockPos pos, BlockState state) {
-        ItemStack itemStack = super.getPickStack(world, pos, state);
-        world.getBlockEntity(pos, PortableCrates.CRATE_BLOCK_ENTITY).ifPresent((blockEntity) -> {
-            blockEntity.setStackNbt(itemStack);
-        });
-        return itemStack;
-    }
-
-    public void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
-        BlockEntity blockEntity = world.getBlockEntity(pos);
-        if (blockEntity instanceof CrateBlockEntity) {
-            ((CrateBlockEntity) blockEntity).tick();
+    // Redstone
+    public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
+        if (!state.isOf(newState.getBlock())) {
+            BlockEntity blockEntity = world.getBlockEntity(pos);
+            if (blockEntity instanceof CrateBlockEntity) {
+                world.updateComparators(pos, state.getBlock());
+            }
+            super.onStateReplaced(state, world, pos, newState, moved);
         }
     }
 
