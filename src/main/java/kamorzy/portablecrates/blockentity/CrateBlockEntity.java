@@ -1,8 +1,12 @@
 package kamorzy.portablecrates.blockentity;
 
+import kamorzy.portablecrates.screen.CrateScreenHandler;
 import kamorzy.portablecrates.PortableCrates;
 import kamorzy.portablecrates.block.CrateBlock;
+import kamorzy.portablecrates.block.SealedCrateBlock;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.ShulkerBoxBlock;
 import net.minecraft.block.entity.LootableContainerBlockEntity;
 import net.minecraft.block.entity.ViewerCountManager;
 import net.minecraft.entity.player.PlayerEntity;
@@ -11,8 +15,6 @@ import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.screen.Generic3x3ContainerScreenHandler;
-import net.minecraft.screen.GenericContainerScreenHandler;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
@@ -64,8 +66,8 @@ public class CrateBlockEntity extends LootableContainerBlockEntity {
             }
 
             protected boolean isPlayerViewing(PlayerEntity player) {
-                if (player.currentScreenHandler instanceof GenericContainerScreenHandler) {
-                    Inventory inventory = ((GenericContainerScreenHandler)player.currentScreenHandler).getInventory();
+                if (player.currentScreenHandler instanceof CrateScreenHandler) {
+                    Inventory inventory = ((CrateScreenHandler)player.currentScreenHandler).getInventory();
                     return inventory == CrateBlockEntity.this;
                 } else {
                     return false;
@@ -82,7 +84,7 @@ public class CrateBlockEntity extends LootableContainerBlockEntity {
     }
 
     protected ScreenHandler createScreenHandler(int syncId, PlayerInventory playerInventory) {
-        return new Generic3x3ContainerScreenHandler(syncId, playerInventory, this);
+        return new CrateScreenHandler(syncId, playerInventory, this);
     }
 
     void playSound(BlockState state, SoundEvent soundEvent) {
@@ -90,7 +92,7 @@ public class CrateBlockEntity extends LootableContainerBlockEntity {
         double d = (double)this.pos.getX() + 0.5 + (double)vec3i.getX() / 2.0;
         double e = (double)this.pos.getY() + 0.5 + (double)vec3i.getY() / 2.0;
         double f = (double)this.pos.getZ() + 0.5 + (double)vec3i.getZ() / 2.0;
-        this.world.playSound((PlayerEntity)null, d, e, f, soundEvent, SoundCategory.BLOCKS, 0.5F, this.world.random.nextFloat() * 0.1F + 0.9F);
+        this.world.playSound((PlayerEntity)null, d, e, f, soundEvent, SoundCategory.BLOCKS, 0.5F, this.world.random.nextFloat() * 0.1F + 1.3F);
     }
 
     // Player Interactions
@@ -104,6 +106,12 @@ public class CrateBlockEntity extends LootableContainerBlockEntity {
         if (!this.removed && !player.isSpectator()) {
             this.stateManager.closeContainer(player, this.getWorld(), this.getPos(), this.getCachedState());
         }
+    }
+
+    // Redstone
+    public boolean isValid(int slot, ItemStack stack) {
+        Block block = Block.getBlockFromItem(stack.getItem());
+        return (!(block instanceof ShulkerBoxBlock)) && (!(block instanceof SealedCrateBlock));
     }
 
     // NBT

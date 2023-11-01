@@ -1,9 +1,0 @@
-{
-  "replace": false,
-  "values": [
-    "portablecrates:crate",
-    "portablecrates:sealed_crate",
-    "minecraft:bundle",
-    "#simplecrates:shulker_boxes"
-  ]
-}

@@ -15,7 +15,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "portablecrates:crate"
+        "recipe": "portablecrates:spruce_crate"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -28,7 +28,7 @@
   ],
   "rewards": {
     "recipes": [
-      "portablecrates:crate"
+      "portablecrates:spruce_crate"
     ]
   },
   "sends_telemetry_event": false

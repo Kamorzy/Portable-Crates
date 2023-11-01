@@ -1,7 +1,7 @@
 {
   "replace": false,
   "values": [
-    "portablecrates:crate",
-    "portablecrates:sealed_crate"
+    "portablecrates:spruce_crate",
+    "portablecrates:spruce_sealed_crate"
   ]
 }
