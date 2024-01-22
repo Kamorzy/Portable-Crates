@@ -1,5 +1,6 @@
 package kamorzy.portablecrates.block;
 
+import com.mojang.serialization.MapCodec;
 import kamorzy.portablecrates.blockentity.SealedCrateBlockEntity;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
@@ -29,6 +30,10 @@ public class SealedCrateBlock extends BlockWithEntity {
     public static final Identifier CONTENTS = new Identifier("contents");
     public static final DirectionProperty FACING = HorizontalFacingBlock.FACING;
     private final WoodType wood;
+
+    public MapCodec<SealedCrateBlock> getCodec() {
+        return null;
+    }
 
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {

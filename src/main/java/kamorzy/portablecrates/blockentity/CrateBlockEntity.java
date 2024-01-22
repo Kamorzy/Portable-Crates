@@ -41,6 +41,10 @@ public class CrateBlockEntity extends LootableContainerBlockEntity {
         return this.inventory;
     }
 
+    protected DefaultedList<ItemStack> method_11282() {
+        return this.inventory;
+    }
+
     protected void setInvStackList(DefaultedList<ItemStack> list) {
         this.inventory = list;
     }
@@ -117,7 +121,7 @@ public class CrateBlockEntity extends LootableContainerBlockEntity {
     // NBT
     protected void writeNbt(NbtCompound nbt) {
         super.writeNbt(nbt);
-        if (!this.serializeLootTable(nbt)) {
+        if (!this.writeLootTable(nbt)) {
             Inventories.writeNbt(nbt, this.inventory, false);
         }
     }
@@ -129,7 +133,7 @@ public class CrateBlockEntity extends LootableContainerBlockEntity {
 
     public void readInventoryNbt(NbtCompound nbt) {
         this.inventory = DefaultedList.ofSize(this.size(), ItemStack.EMPTY);
-        if (!this.deserializeLootTable(nbt) && nbt.contains("Items", 9)) {
+        if (!this.readLootTable(nbt) && nbt.contains("Items", 9)) {
             Inventories.readNbt(nbt, this.inventory);
         }
     }

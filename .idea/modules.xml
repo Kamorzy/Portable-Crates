@@ -6,10 +6,14 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/PortableCrates-MC1.19.4.test.iml" filepath="$PROJECT_DIR$/.idea/modules/PortableCrates-MC1.19.4.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/PortableCrates-MC1.20.2.main.iml" filepath="$PROJECT_DIR$/.idea/modules/PortableCrates-MC1.20.2.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/PortableCrates-MC1.20.2.test.iml" filepath="$PROJECT_DIR$/.idea/modules/PortableCrates-MC1.20.2.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/PortableCrates-MC1.20.3.main.iml" filepath="$PROJECT_DIR$/.idea/modules/PortableCrates-MC1.20.3.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/PortableCrates-MC1.20.3.test.iml" filepath="$PROJECT_DIR$/.idea/modules/PortableCrates-MC1.20.3.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/PortableCrates-MC1.20.main.iml" filepath="$PROJECT_DIR$/.idea/modules/PortableCrates-MC1.20.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/PortableCrates-MC1.20.test.iml" filepath="$PROJECT_DIR$/.idea/modules/PortableCrates-MC1.20.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Traveling_Crates_-_1.19.4.main.iml" filepath="$PROJECT_DIR$/.idea/modules/Traveling_Crates_-_1.19.4.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Traveling_Crates_-_1.19.4.test.iml" filepath="$PROJECT_DIR$/.idea/modules/Traveling_Crates_-_1.19.4.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/kamorzy.portablecrates.PortableCrates-MC1.20.2.main.iml" filepath="$PROJECT_DIR$/.idea/modules/kamorzy.portablecrates.PortableCrates-MC1.20.2.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/kamorzy.portablecrates.PortableCrates-MC1.20.2.test.iml" filepath="$PROJECT_DIR$/.idea/modules/kamorzy.portablecrates.PortableCrates-MC1.20.2.test.iml" />
     </modules>
   </component>
 </project>

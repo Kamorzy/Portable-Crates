@@ -1,5 +1,8 @@
 package kamorzy.portablecrates.block;
 
+import com.mojang.datafixers.kinds.Applicative;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import kamorzy.portablecrates.PortableCrates;
 import kamorzy.portablecrates.blockentity.CrateBlockEntity;
 import net.minecraft.block.*;
@@ -33,6 +36,10 @@ public class CrateBlock extends BlockWithEntity {
     public static final BooleanProperty EMPTY = BooleanProperty.of("empty");
     public static final DirectionProperty FACING = HorizontalFacingBlock.FACING;
     private final WoodType wood;
+
+    public MapCodec<CrateBlock> getCodec() {
+        return null;
+    }
 
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
@@ -98,7 +105,7 @@ public class CrateBlock extends BlockWithEntity {
         }
     }
 
-    public void onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
+    public BlockState onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
         BlockEntity blockEntity = world.getBlockEntity(pos);
         if (blockEntity instanceof CrateBlockEntity crateBlockEntity) {
             if ((!world.isClient) && !crateBlockEntity.isEmpty() && player.isCreative()) {
@@ -111,10 +118,11 @@ public class CrateBlock extends BlockWithEntity {
                     itemEntity.setToDefaultPickupDelay();
                     world.spawnEntity(itemEntity);
             } else {
-                crateBlockEntity.checkLootInteraction(player);
+                crateBlockEntity.generateLoot(player);
             }
         }
         super.onBreak(world, pos, state, player);
+        return state;
     }
 
     public List<ItemStack> getDroppedStacks(BlockState state, LootContextParameterSet.Builder builder) {

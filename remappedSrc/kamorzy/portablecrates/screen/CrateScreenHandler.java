@@ -1,12 +1,15 @@
 package kamorzy.portablecrates.screen;
 
 import kamorzy.portablecrates.PortableCrates;
+import net.minecraft.block.Block;
+import net.minecraft.block.ShulkerBoxBlock;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.registry.tag.TagKey;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
 
@@ -29,7 +32,8 @@ public class CrateScreenHandler extends ScreenHandler {
             for(j = 0; j < 3; ++j) {
                 this.addSlot(new Slot(inventory, j + i * 3, 62 + j * 18, 17 + i * 18) {
                     public boolean canInsert(ItemStack stack) {
-                        return !stack.isOf(Items.SHULKER_BOX) && !stack.isOf(PortableCrates.SEALED_CRATE_BLOCK_ITEM);
+                        return !(Block.getBlockFromItem(stack.getItem()) instanceof ShulkerBoxBlock) &&
+                                !stack.isOf(PortableCrates.SEALED_CRATE_BLOCK_ITEM);
                     }
                 });
             }
@@ -49,6 +53,10 @@ public class CrateScreenHandler extends ScreenHandler {
 
     public boolean canUse(PlayerEntity player) {
         return this.inventory.canPlayerUse(player);
+    }
+
+    public Inventory getInventory() {
+        return this.inventory;
     }
 
     public ItemStack quickMove(PlayerEntity player, int slot) {

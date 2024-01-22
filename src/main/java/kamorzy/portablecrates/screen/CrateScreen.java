@@ -10,7 +10,7 @@ import net.minecraft.util.Identifier;
 
 @Environment(EnvType.CLIENT)
 public class CrateScreen extends HandledScreen<CrateScreenHandler> {
-    private static final Identifier TEXTURE = new Identifier("textures/gui/container/dispenser.png");
+    private static final Identifier TEXTURE = new Identifier("portablecrates:textures/gui/container/crate.png");
 
     public CrateScreen(CrateScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);

@@ -11,9 +11,7 @@ import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.fabricmc.fabric.api.registry.FuelRegistry;
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.DispenserBlock;
+import net.minecraft.block.*;
 import net.minecraft.block.dispenser.BlockPlacementDispenserBehavior;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.block.piston.PistonBehavior;
@@ -39,20 +37,20 @@ public class PortableCrates implements ModInitializer {
     public static final ScreenHandlerType<CrateScreenHandler> CRATE_SCREEN_HANDLER;
 
     public static final String MOD_ID = "portablecrates";
-    public static final Identifier CRATE = new Identifier(MOD_ID, "crate");
-    public static final Identifier SEALED_CRATE = new Identifier(MOD_ID, "sealed_crate");
+    public static final Identifier CRATE = new Identifier(MOD_ID, "spruce_crate");
+    public static final Identifier SEALED_CRATE = new Identifier(MOD_ID, "spruce_sealed_crate");
     public static final Identifier CRATE_SCREEN = new Identifier(MOD_ID, "crate_screen");
 
     static {
-        CRATE_BLOCK = Registry.register(Registries.BLOCK, CRATE, new CrateBlock(FabricBlockSettings.copyOf(Blocks.BARREL).pistonBehavior(PistonBehavior.DESTROY)));
+        CRATE_BLOCK = Registry.register(Registries.BLOCK, CRATE, new CrateBlock(WoodType.SPRUCE, FabricBlockSettings.copyOf(Blocks.BARREL).pistonBehavior(PistonBehavior.DESTROY).hardness(2.0f).mapColor(MapColor.SPRUCE_BROWN)));
         CRATE_BLOCK_ITEM = Registry.register(Registries.ITEM, CRATE, new BlockItem(CRATE_BLOCK, new FabricItemSettings()));
         CRATE_BLOCK_ENTITY = Registry.register(Registries.BLOCK_ENTITY_TYPE, CRATE, FabricBlockEntityTypeBuilder.create(CrateBlockEntity::new, CRATE_BLOCK).build(null));
 
-        SEALED_CRATE_BLOCK = Registry.register(Registries.BLOCK, SEALED_CRATE, new SealedCrateBlock(FabricBlockSettings.copyOf(Blocks.BARREL).pistonBehavior(PistonBehavior.DESTROY)));
+        SEALED_CRATE_BLOCK = Registry.register(Registries.BLOCK, SEALED_CRATE, new SealedCrateBlock(WoodType.SPRUCE, FabricBlockSettings.copyOf(Blocks.BARREL).pistonBehavior(PistonBehavior.DESTROY).hardness(2.0f).mapColor(MapColor.SPRUCE_BROWN)));
         SEALED_CRATE_BLOCK_ITEM = Registry.register(Registries.ITEM, SEALED_CRATE, new BlockItem(SEALED_CRATE_BLOCK, new FabricItemSettings().maxCount(1)));
         SEALED_CRATE_BLOCK_ENTITY = Registry.register(Registries.BLOCK_ENTITY_TYPE, SEALED_CRATE, FabricBlockEntityTypeBuilder.create(SealedCrateBlockEntity::new, SEALED_CRATE_BLOCK).build(null));
 
-        CRATE_SCREEN_HANDLER = Registry.register(Registries.SCREEN_HANDLER, CRATE_SCREEN, new ScreenHandlerType(CrateScreenHandler::new, FeatureFlags.VANILLA_FEATURES));
+        CRATE_SCREEN_HANDLER = Registry.register(Registries.SCREEN_HANDLER, CRATE_SCREEN, new ScreenHandlerType<>(CrateScreenHandler::new, FeatureFlags.VANILLA_FEATURES));
     }
 
     @Override

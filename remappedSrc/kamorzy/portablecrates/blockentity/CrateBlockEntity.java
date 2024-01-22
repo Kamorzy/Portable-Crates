@@ -15,7 +15,6 @@ import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.screen.GenericContainerScreenHandler;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
@@ -67,8 +66,8 @@ public class CrateBlockEntity extends LootableContainerBlockEntity {
             }
 
             protected boolean isPlayerViewing(PlayerEntity player) {
-                if (player.currentScreenHandler instanceof GenericContainerScreenHandler) {
-                    Inventory inventory = ((GenericContainerScreenHandler)player.currentScreenHandler).getInventory();
+                if (player.currentScreenHandler instanceof CrateScreenHandler) {
+                    Inventory inventory = ((CrateScreenHandler)player.currentScreenHandler).getInventory();
                     return inventory == CrateBlockEntity.this;
                 } else {
                     return false;
@@ -93,7 +92,7 @@ public class CrateBlockEntity extends LootableContainerBlockEntity {
         double d = (double)this.pos.getX() + 0.5 + (double)vec3i.getX() / 2.0;
         double e = (double)this.pos.getY() + 0.5 + (double)vec3i.getY() / 2.0;
         double f = (double)this.pos.getZ() + 0.5 + (double)vec3i.getZ() / 2.0;
-        this.world.playSound((PlayerEntity)null, d, e, f, soundEvent, SoundCategory.BLOCKS, 0.5F, this.world.random.nextFloat() * 0.1F + 0.9F);
+        this.world.playSound((PlayerEntity)null, d, e, f, soundEvent, SoundCategory.BLOCKS, 0.5F, this.world.random.nextFloat() * 0.1F + 1.3F);
     }
 
     // Player Interactions
