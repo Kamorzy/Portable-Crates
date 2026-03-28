@@ -1,27 +1,38 @@
 {
-  "schemaVersion": 1,
-  "id": "portablecrates",
-  "version": "${version}",
-  "name": "Portable Crates",
-  "description": "Adds portable crates",
-  "authors": ["Kamorzy"],
-  "contact": {
-    "repo": "https://github.com/Kamorzy/Portable-Crates"
-  },
-  "license": "LGPLv3",
-  "icon": "assets/portablecrates/icon.png",
-  "environment": "*",
-  "entrypoints": {
-    "client": [
-      "kamorzy.portablecrates.PortableCratesClient"
-    ],
-    "main": [
-      "kamorzy.portablecrates.PortableCrates"
-    ]
-  },
-  "depends": {
-    "fabricloader": ">=0.14.23",
-    "fabric": "*",
-    "minecraft": "1.20.2"
-  }
+	"schemaVersion": 1,
+	"id": "portable-crates",
+	"version": "${version}",
+	"name": "Portable Crates",
+	"description": "This is an example description! Tell everyone what your mod is about!",
+	"authors": [
+		"Me!"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/FabricMC/fabric-example-mod"
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/portable-crates/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"kamorzy.portablecrates.PortableCrates"
+		],
+		"client": [
+			"kamorzy.portablecrates.PortableCratesClient"
+		]
+	},
+	"mixins": [
+		"portable-crates.mixins.json",
+		{
+			"config": "portable-crates.client.mixins.json",
+			"environment": "client"
+		}
+	],
+	"depends": {
+		"fabricloader": ">=0.18.5",
+		"minecraft": "~26.1",
+		"java": ">=25",
+		"fabric-api": "*"
+	}
 }
