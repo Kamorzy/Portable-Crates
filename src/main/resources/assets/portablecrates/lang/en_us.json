@@ -1,0 +1,6 @@
+{
+  "block.portablecrates.spruce_crate": "Crate",
+  "block.portablecrates.spruce_sealed_crate": "Sealed Crate",
+  "container.portablecrates.crate": "Crate",
+  "container.portablecrates.sealed_crate": "Sealed Crate"
+}

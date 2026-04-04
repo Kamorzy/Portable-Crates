@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=south": { "model": "portablecrates:block/spruce_crate"},
+    "facing=east":  { "model": "portablecrates:block/spruce_crate_mirror"},
+    "facing=north": { "model": "portablecrates:block/spruce_crate"},
+    "facing=west":  { "model": "portablecrates:block/spruce_crate_mirror"}
+  }
+}
