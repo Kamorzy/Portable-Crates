@@ -16,11 +16,12 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.properties.WoodType;
 
 public final class ModBlocks {
-    public static final Block CRATE_BLOCK = register(
+    public static final Block SPRUCE_CRATE = register(
             "spruce_crate",
-            CrateBlock::new,
+            props -> new CrateBlock(WoodType.SPRUCE, props),
             BlockBehaviour.Properties.ofFullCopy(Blocks.BARREL),
             true
     );
@@ -57,7 +58,7 @@ public final class ModBlocks {
 
     public static void initialize() {
         CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.BUILDING_BLOCKS).register(entries -> {
-            entries.accept(CRATE_BLOCK.asItem());
+            entries.accept(SPRUCE_CRATE.asItem());
         });
     }
 }

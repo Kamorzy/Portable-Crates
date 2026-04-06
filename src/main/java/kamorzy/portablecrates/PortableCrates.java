@@ -2,7 +2,7 @@ package kamorzy.portablecrates;
 
 import kamorzy.portablecrates.registry.ModBlockEntities;
 import kamorzy.portablecrates.registry.ModBlocks;
-import kamorzy.portablecrates.registry.ModScreens;
+import kamorzy.portablecrates.registry.ModMenuTypes;
 import net.fabricmc.api.ModInitializer;
 
 public class PortableCrates implements ModInitializer {
@@ -12,6 +12,6 @@ public class PortableCrates implements ModInitializer {
 	public void onInitialize() {
 		ModBlocks.initialize();
 		ModBlockEntities.initialize();
-		ModScreens.initialize();
+		ModMenuTypes.initialize();
 	}
 }

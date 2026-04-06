@@ -13,7 +13,7 @@ public final class ModBlockEntities {
             Registry.register(
                     BuiltInRegistries.BLOCK_ENTITY_TYPE,
                     Identifier.fromNamespaceAndPath(PortableCrates.MOD_ID, "crate_block_entity"),
-                    FabricBlockEntityTypeBuilder.create(CrateBlockEntity::new, ModBlocks.CRATE_BLOCK).build()
+                    FabricBlockEntityTypeBuilder.create(CrateBlockEntity::new, ModBlocks.SPRUCE_CRATE).build()
             );
 
     public static void initialize() {
