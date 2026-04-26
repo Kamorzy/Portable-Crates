@@ -1,21 +1,18 @@
 {
   "type": "minecraft:crafting_shaped",
   "category": "misc",
-  "key": {
-    "p": {
-      "tag": "minecraft:planks"
-    },
-    "i": {
-      "item": "minecraft:iron_ingot"
-    }
-  },
   "pattern": [
     "ipi",
     "p p",
     "ipi"
   ],
+  "key": {
+    "p": "#minecraft:planks",
+    "i": "minecraft:iron_ingot"
+  },
   "result": {
-    "item": "portablecrates:spruce_crate"
+    "id": "portablecrates:spruce_crate",
+    "count": 1
   },
   "show_notification": true
 }

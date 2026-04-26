@@ -16,6 +16,7 @@ public final class ModMenuTypes {
                     new MenuType<>(CrateMenu::new, FeatureFlags.DEFAULT_FLAGS)
             );
 
+    // BEST PRACTICE
     public static void initialize() {
     }
 

@@ -9,13 +9,21 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 
 public final class ModBlockEntities {
+
+    // REGISTER actions
     public static final BlockEntityType<CrateBlockEntity> CRATE_BLOCK_ENTITY =
             Registry.register(
                     BuiltInRegistries.BLOCK_ENTITY_TYPE,
                     Identifier.fromNamespaceAndPath(PortableCrates.MOD_ID, "crate_block_entity"),
-                    FabricBlockEntityTypeBuilder.create(CrateBlockEntity::new, ModBlocks.SPRUCE_CRATE).build()
+                    FabricBlockEntityTypeBuilder.create(
+                            CrateBlockEntity::new,
+                            ModBlocks.SPRUCE_CRATE,
+                            ModBlocks.SPRUCE_SEALED_CRATE
+                    ).build()
             );
 
+
+    // BEST PRACTICE
     public static void initialize() {
     }
 

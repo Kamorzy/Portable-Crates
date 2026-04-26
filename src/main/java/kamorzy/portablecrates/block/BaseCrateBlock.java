@@ -4,10 +4,11 @@ import kamorzy.portablecrates.blockentity.CrateBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.Containers;
+import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.context.BlockPlaceContext;
-import net.minecraft.world.level.block.BaseEntityBlock;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.HorizontalDirectionalBlock;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
@@ -23,6 +24,17 @@ public abstract class BaseCrateBlock extends BaseEntityBlock {
 
     private final WoodType wood;
 
+    public WoodType getWoodType() {
+        return wood;
+    }
+
+    // SERIALIZATION
+
+    @Override
+    public abstract @NonNull MapCodec<? extends BaseCrateBlock> codec();
+
+    // CONSTRUCTORS
+
     protected BaseCrateBlock(BlockBehaviour.Properties properties) {
         this(WoodType.SPRUCE, properties);
     }
@@ -37,6 +49,14 @@ public abstract class BaseCrateBlock extends BaseEntityBlock {
         );
     }
 
+    @Nullable
+    @Override
+    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+        return new CrateBlockEntity(pos, state);
+    }
+
+    // STATE and DIRECTION for placement
+
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
         return this.defaultBlockState()
@@ -48,11 +68,17 @@ public abstract class BaseCrateBlock extends BaseEntityBlock {
         builder.add(FACING);
     }
 
-    @Nullable
     @Override
-    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return new CrateBlockEntity(pos, state);
+    public BlockState rotate(BlockState state, Rotation rotation) {
+        return state.setValue(FACING, rotation.rotate(state.getValue(FACING)));
     }
+
+    @Override
+    public BlockState mirror(BlockState state, Mirror mirror) {
+        return state.rotate(mirror.getRotation(state.getValue(FACING)));
+    }
+
+    // REDSTONE and TICK UPDATES
 
     @Override
     protected void affectNeighborsAfterRemoval(
@@ -61,13 +87,23 @@ public abstract class BaseCrateBlock extends BaseEntityBlock {
             BlockPos pos,
             boolean movedByPiston
     ) {
-        level.updateNeighbourForOutputSignal(pos, this);
+        Containers.updateNeighboursAfterDestroy(state, level, pos);
     }
 
     @Override
-    public abstract @NonNull MapCodec<? extends BaseCrateBlock> codec();
+    protected boolean hasAnalogOutputSignal(final BlockState state) {
+        return true;
+    }
 
-    public WoodType getWoodType() {
-        return wood;
+    @Override
+    protected int getAnalogOutputSignal(
+            BlockState state,
+            Level level,
+            BlockPos pos,
+            Direction direction
+    ) {
+        return AbstractContainerMenu.getRedstoneSignalFromBlockEntity(
+                level.getBlockEntity(pos)
+        );
     }
 }

@@ -1,3 +1,6 @@
 {
-  "parent": "portablecrates:block/spruce_sealed_crate"
+  "model": {
+    "type": "minecraft:model",
+    "model": "portablecrates:block/spruce_sealed_crate"
+  }
 }
